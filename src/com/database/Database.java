@@ -4,9 +4,11 @@ import com.*;
 
 import java.util.List;
 
-public interface Database{
+public interface Database1 {
 
-    List<ShoppingEvent> getShoppingEvents();
+    ShoppingEvent get();
+
+    List<ShoppingEvent> getAll();
 
     void append(ShoppingEvent eventToAdd);
 

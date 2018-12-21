@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.pojo.Item;
 import com.pojo.Shop;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 12-11-2018
  */
-public class ShoppingEvent {
+public class ShoppingEvent implements Serializable {
 
    private Shop shop;
    private ArrayList<Item> items;
