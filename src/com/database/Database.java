@@ -1,10 +1,10 @@
 package com.database;
 
-import com.*;
+import com.pojo.ShoppingEvent;
 
 import java.util.List;
 
-public interface Database1 {
+public interface Database {
 
     ShoppingEvent get();
 

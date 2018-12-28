@@ -1,15 +1,13 @@
-package com;
+package com.pojo;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.pojo.Item;
-import com.pojo.Shop;
+import com.converters.ParserVisitor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h1>ShoppingEvent Class</h1>
@@ -20,72 +18,63 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 12-11-2018
  */
-public class ShoppingEvent implements Serializable {
+public class ShoppingEvent implements BudgettingVisitableElement, Serializable {
 
-   private Shop shop;
-   private ArrayList<Item> items;
-   private LocalDateTime dateTime;
+	private Shop shop;
+	private List<Item> items;
+	private LocalDateTime dateTime;
 
-    /**
-     * Converts the object into a Json object
-     *
-     * @return Json in string format, representing the Item object.
-     */
-   public String toJson(){
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      return gson.toJson(this);
-   }
+	// Sets current date and time.
+	public ShoppingEvent(Shop shop, ArrayList<Item> items) {
+	 	this.shop = shop;
+	 	this.items = items;
+	 	this.dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+	}
 
-    /**
-     *
-     * @param shoppingEvent Object to compare with.
-     * @return Boolean value. True if all ShoppingEvent attributes match.
-     */
-   public boolean equals(ShoppingEvent shoppingEvent){
-      return false;
-   }
+	// Accepts LocalDateTime object.
+	public ShoppingEvent(Shop shop, ArrayList<Item> items, LocalDateTime dateTime) {
+		this.shop = shop;
+		this.items = items;
+		this.dateTime = dateTime;
+	}
 
-   @Override
-   public String toString(){
-      return ("Shop: " + shop.name() + " at " + shop.getLocation() + "." + items.toString() + "Time: " + dateTime.toString());
-   }
+	public Shop getShop() {
+		return shop;
+	}
 
-   // Sets current date and time.
-   public ShoppingEvent(Shop shop, ArrayList<Item> items) {
-      this.shop = shop;
-      this.items = items;
-      this.dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now());
-   }
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
 
-   // Accepts LocalDateTime object.
-   public ShoppingEvent(Shop shop, ArrayList<Item> items, LocalDateTime dateTime) {
-     this.shop = shop;
-     this.items = items;
-     this.dateTime = dateTime;
-   }
+	public List<Item> getItems() {
+		return items;
+	}
 
-   public Shop getShop() {
-      return shop;
-   }
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
 
-   public void setShop(Shop shop) {
-      this.shop = shop;
-   }
+	public LocalDateTime getDateTime() {
+	  return dateTime;
+	}
 
-   public ArrayList<Item> getItems() {
-      return items;
-   }
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
 
-   public void setItems(ArrayList<Item> items) throws IllegalArgumentException{
-      if(items.isEmpty()) throw new IllegalArgumentException("Lngth of items: 0. No items bought.");
-      this.items = items;
-   }
+	@Override
+	public String toString(){
+		return ("Shop: " + shop.name() + " at " + shop.getLocation() + "." + items.toString() + "Time: " + dateTime.toString());
+	}
 
-   public LocalDateTime getDateTime() {
-      return dateTime;
-   }
+	public boolean equals(ShoppingEvent shoppingEvent){
+		return	this.shop.equals(shoppingEvent.getShop())
+				&& this.items.equals(shoppingEvent.getItems())
+				&& this.dateTime.equals(shoppingEvent.getDateTime());
+	}
 
-   public void setDateTime(LocalDateTime dateTime) {
-      this.dateTime = dateTime;
-   }
+	@Override
+	public Object stringParse(ParserVisitor converter, String recordStr) {
+		return converter.visitElement(this, recordStr);
+	}
 }

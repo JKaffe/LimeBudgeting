@@ -1,27 +1,28 @@
 package com.database;
 
-import com.ShoppingEvent;
+import com.pojo.ShoppingEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
-class BurgetingDatabase {
+public class BudgetingDatabase implements Database{
 
-    private boolean autoCommit = false;
-    private final String databaseFileName;
-    private final List<ShoppingEvent> shoppingEvents;
-    private final Database database;
+    protected boolean autoCommit = false;
+    protected final String databaseFileName;
+    protected final List<ShoppingEvent> shoppingEvents;
+    protected final DatabaseImplementation databaseImplementation;
 
-    public BurgetingDatabase(String databaseFileName, List<ShoppingEvent> shoppingEvents, Database database) {
+    public BudgetingDatabase(String databaseFileName, DatabaseImplementation databaseImplementation) {
         this.databaseFileName = databaseFileName;
-        this.shoppingEvents = shoppingEvents;
-        this.database = database;
+        this.databaseImplementation = databaseImplementation;
+        this.shoppingEvents = this.databaseImplementation.getShoppingEventsFromDatabase(this.databaseFileName);
     }
 
-    public BurgetingDatabase(boolean autoCommit, String databaseFileName, List<ShoppingEvent> shoppingEvents, Database database){
-        this.autoCommit = autoCommit;
+    public BudgetingDatabase(String databaseFileName, DatabaseImplementation databaseImplementation, boolean autoCommit){
         this.databaseFileName = databaseFileName;
-        this.shoppingEvents = shoppingEvents;
-        this.database = database;
+        this.databaseImplementation = databaseImplementation;
+        this.shoppingEvents = this.databaseImplementation.getShoppingEventsFromDatabase(this.databaseFileName);
+        this.autoCommit = autoCommit;
     }
 
     public boolean isAutoCommit() {
@@ -38,5 +39,35 @@ class BurgetingDatabase {
 
     public List<ShoppingEvent> getShoppingEvents() {
         return shoppingEvents;
+    }
+
+    @Override
+    public ShoppingEvent get() {
+        return null;
+    }
+
+    @Override
+    public List<ShoppingEvent> getAll() {
+        return new ArrayList<ShoppingEvent>(this.shoppingEvents);
+    }
+
+    @Override
+    public void append(ShoppingEvent eventToAdd) {
+        this.shoppingEvents.add(eventToAdd);
+    }
+
+    @Override
+    public void delete(ShoppingEvent eventToDelete) {
+        this.shoppingEvents.remove(eventToDelete);
+    }
+
+    @Override
+    public void update(ShoppingEvent eventToUpdate, ShoppingEvent updatedEvent) {
+
+    }
+
+    @Override
+    public void commit() {
+        this.databaseImplementation.commitShoppingEventsToDatabase(this.databaseFileName, this.shoppingEvents);
     }
 }

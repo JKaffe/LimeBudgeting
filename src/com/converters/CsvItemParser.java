@@ -1,4 +1,4 @@
-package com.converters;
+/*package com.converters;
 
 import com.pojo.BudgettingVisitableElement;
 import com.pojo.Item;
@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CsvItemConverter extends CsvConverter{
+public class CsvItemParser extends CsvParser {
 
 	public Map<String, String> genNameToValueMap(String[] fieldNames, String[] values) throws IllegalArgumentException {
 		if(fieldNames.length != values.length){
@@ -26,6 +26,7 @@ public class CsvItemConverter extends CsvConverter{
 
 		return map;
 	}
+
 
 	@Override
 	public Object parse(String record, BudgettingVisitableElement pojoObj, BudgetingConverter converter) throws ParseException {
@@ -90,13 +91,13 @@ public class CsvItemConverter extends CsvConverter{
 			}
 		}
 		*/
-
+/*
 		return item;
 
 	}
 
 	@Override
-	/*DO ERROR HANDELING******************************************************/
+	/*DO ERROR HANDELING******************************************************//*
 	public String convertToWrite(Object obj) {
 		final Field[] fields = Item.class.getFields();
 		final StringBuilder csvLine = new StringBuilder();
@@ -119,3 +120,4 @@ public class CsvItemConverter extends CsvConverter{
 		return csvLine.toString();
 	}
 }
+*/

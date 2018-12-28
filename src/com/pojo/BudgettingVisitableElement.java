@@ -1,7 +1,9 @@
 package com.pojo;
 
-public interface VisitableElement {
+import com.converters.ParserVisitor;
 
-	void accept();
+public interface BudgettingVisitableElement<E> {
+
+	E stringParse(ParserVisitor converter, String recordStr);
 
 }

@@ -1,6 +1,10 @@
 package com.pojo;
 
-public enum Shop {
+import com.converters.ParserVisitor;
+
+import java.io.Serializable;
+
+public enum Shop  implements BudgettingVisitableElement, Serializable {
 
     LIDL("ONE") , ASDA("Mile End"), SAINSBURY("Mile End");
 
@@ -12,5 +16,10 @@ public enum Shop {
 
     public String getLocation() {
         return location;
+    }
+
+    @Override
+    public Object stringParse(ParserVisitor converter, String recordStr) {
+        return converter.visitElement(this, recordStr);
     }
 }

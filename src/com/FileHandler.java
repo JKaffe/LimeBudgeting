@@ -33,9 +33,10 @@ public class FileHandler {
 
     /**
      * Returns all lines in a file not including empty lines and lines that contain only comments.
+     * Pass NO_COMMENT_LINES as second parameter to exclude lines that only contain comments.
      *
      * @param fileUri
-     * @param filterComment
+     * @param filterComments
      * @throws InvalidPathException
      * @throws IOException
      */

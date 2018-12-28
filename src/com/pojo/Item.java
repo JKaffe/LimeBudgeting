@@ -1,8 +1,8 @@
-
 package com.pojo;
 
-import java.util.Scanner;
-import java.util.stream.IntStream;
+import com.converters.ParserVisitor;
+
+import java.io.Serializable;
 
 /**
  * <h1>Item Class</h1>
@@ -12,102 +12,64 @@ import java.util.stream.IntStream;
  * @version 1.0
  * @since 12-11-2018
  */
-public class Item {
+public class Item implements BudgettingVisitableElement<Item>, Serializable {
 
-    private final String name;
-    private final double price;
-    private final Category category;
+	private String name;
+	private double price;
+	private Category category;
 
-    /**
-     * Use to get an Item object from different sources such as standard in or a database.
-     *
-     * @return Item created with user input from standard input.
-     */
-    public static Item getItem(){
-        Scanner scanner = new Scanner(System.in);
+    public Item(){
+	}
 
-        /*-------------------------------------------------------------------*/
-
-        System.out.print("Name of the item: ");
-        final String name = scanner.nextLine();
-
-        double price;
-        do{
-            System.out.print("Price Cannot be negative. Price of the item: ");
-
-            while (!scanner.hasNextDouble()) {
-                // Makes the thread wait until the next double is found
-                scanner.next();
-                System.out.print("Erroneous Input. Price: ");
-            }
-
-            price = scanner.nextDouble();
-        } while (price <= 0.0);
-
-        /*-------------------------------------------------------------------*/
-
-        final Category[] categories = Category.values();
-
-        // Will be used to get a Category pojo from the array by referring to index value.
-        // Will contain value between 0 and categories last index.
-        int categoryIndex;
-        do{
-            // Prints all categories
-            IntStream.range(0, categories.length)
-                    .forEachOrdered( index -> System.out.println( index +": " + categories[index]));
-
-            System.out.print("Choose a category: ");
-
-            while(!scanner.hasNextInt()){
-                scanner.next();
-                System.out.print("Erroneous Input. Price: ");
-            }
-
-            categoryIndex = scanner.nextInt();
-        } while(categoryIndex < 0 || categoryIndex > categories.length);
-        final Category categoryChoosen = categories[categoryIndex];
-
-        /*-------------------------------------------------------------------*/
-
-        return new Item(name, price, categoryChoosen);
-    }
-
-    /**
-     * @param name Name of the item
-     * @param price The cost of the item
-     */
     public Item(String name, double price, Category category) {
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
+	@Override
+	public Item stringParse(ParserVisitor converter, String recordStr) {
+		return (Item) converter.visitElement(this, recordStr);
+	}
 
+	/**
+	 * @param item item to compare with.
+	 * @return Boolean value. True if the names and the prices of the object match.
+	 */
+	// Returns true if the names(case ignored) and prices are the same.
+	public boolean equals(Item item){
+		return this.price == item.getPrice()
+				&& this.name.equals(item.getName())
+				&& this.category.equals(item.getCategory());
+	}
 
-    /**
-     * @param item item to compare with.
-     * @return Boolean value. True if the names and the prices of the object match.
-     */
-    // Returns true if the names(case ignored) and prices are the same.
-    public boolean equals(Item item){
-        return (this.name.equalsIgnoreCase(item.getName()) && (this.price == item.getPrice()));
-    }
+	@Override
+	public String toString() {
+		return name + "," + price + "," + category;
+	}
 
-    @Override
-    public String toString() {
-        return "The " + name + " costed £" + price + " from.";
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public Category getCategory() {
-        return category;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 }
