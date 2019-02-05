@@ -1,6 +1,7 @@
 package com.pojo;
 
-import com.converters.ParserVisitor;
+import com.database.ParserVisitor;
+import com.pojo.traites.ParsableElement;
 
 import java.io.Serializable;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * @version 1.0
  * @since 12-11-2018
  */
-public class Item implements BudgettingVisitableElement<Item>, Serializable {
+public class Item implements CompositePojo, ParsableElement, Serializable {
 
 	private String name;
 	private double price;
@@ -28,8 +29,8 @@ public class Item implements BudgettingVisitableElement<Item>, Serializable {
     }
 
 	@Override
-	public Item stringParse(ParserVisitor converter, String recordStr) {
-		return (Item) converter.visitElement(this, recordStr);
+	public void stringParse(ParserVisitor converter, String recordStr) {
+		converter.visitElement(this, recordStr);
 	}
 
 	/**

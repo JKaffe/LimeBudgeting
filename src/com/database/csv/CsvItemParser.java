@@ -1,6 +1,6 @@
 /*package com.converters;
 
-import com.pojo.BudgettingVisitableElement;
+import com.pojo.traites.ParsableElement;
 import com.pojo.Item;
 
 import java.lang.reflect.Field;
@@ -29,7 +29,7 @@ public class CsvItemParser extends CsvParser {
 
 
 	@Override
-	public Object parse(String record, BudgettingVisitableElement pojoObj, BudgetingConverter converter) throws ParseException {
+	public Object parse(String record, ParsableElement pojoObj, BudgetingConverter converter) throws ParseException {
 		final String[] values = record.split(String.valueOf(COMMA_SEPARATOR));
 		return converter.convertValuesToParam(values, pojoObj);
 
@@ -57,9 +57,9 @@ public class CsvItemParser extends CsvParser {
 		/*
 		for (int currentColumn = 0; currentColumn <= EXPECTED_COLUMNS - 1; currentColumn++) {
 			final String value = fields[currentColumn];
-			final String columnName = this.getNumToColumnNameMap().get(currentColumn);
+			final String columnName = this.getNumToColumnNameMap().getPointer(currentColumn);
 			System.out.println(columnName);
-			final Class classRequired = this.getColumnNameToClassMap().get(columnName);
+			final Class classRequired = this.getColumnNameToClassMap().getPointer(columnName);
 			final Object convertedValue = this.typeConverter(value);
 			final AbstractClassMapper mapper = new ItemClassMapper();
 
@@ -103,9 +103,9 @@ public class CsvItemParser extends CsvParser {
 		final StringBuilder csvLine = new StringBuilder();
 
 		this.getNumToColumnNameMap().keySet().stream().sequential().sorted().forEachOrdered((Integer columnNumber) -> {
-			final String columnName = this.getNumToColumnNameMap().get(columnNumber);
+			final String columnName = this.getNumToColumnNameMap().getPointer(columnNumber);
 			try {
-				csvLine.append((String) Item.class.getMethod("get" + columnName, Item.class).invoke(obj) + COMMA_SEPARATOR);
+				csvLine.append((String) Item.class.getMethod("getPointer" + columnName, Item.class).invoke(obj) + COMMA_SEPARATOR);
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {

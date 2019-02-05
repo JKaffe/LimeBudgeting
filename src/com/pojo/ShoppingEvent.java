@@ -1,6 +1,7 @@
 package com.pojo;
 
-import com.converters.ParserVisitor;
+import com.database.ParserVisitor;
+import com.pojo.traites.ParsableElement;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @since 12-11-2018
  */
-public class ShoppingEvent implements BudgettingVisitableElement, Serializable {
+public final class ShoppingEvent implements CompositePojo, ParsableElement, Serializable {
 
 	private Shop shop;
 	private List<Item> items;
@@ -74,7 +75,7 @@ public class ShoppingEvent implements BudgettingVisitableElement, Serializable {
 	}
 
 	@Override
-	public Object stringParse(ParserVisitor converter, String recordStr) {
-		return converter.visitElement(this, recordStr);
+	public void stringParse(ParserVisitor converter, String recordStr) {
+		converter.visitElement(this, recordStr);
 	}
 }

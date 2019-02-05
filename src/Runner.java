@@ -1,5 +1,5 @@
 import com.database.BudgetingDatabase;
-import com.database.CSVDatabase;
+import com.database.csv.CsvDatabase;
 import com.pojo.Category;
 import com.pojo.Item;
 import com.pojo.Shop;
@@ -13,7 +13,7 @@ public final class Runner {
         final String dbFile = "db.csv";
 
 
-        BudgetingDatabase database = new BudgetingDatabase(dbFile, new CSVDatabase());
+        BudgetingDatabase database = new BudgetingDatabase(dbFile, new CsvDatabase());
 
         Item i0 = new Item("A", 2.5, Category.ENTERTAINMENT);
         Item i1 = new Item("B", 3.0, Category.FOOD);
@@ -31,7 +31,7 @@ public final class Runner {
 
         database.append(e1);
         database.append(e2);
-
+        
         database.commit();
     }
 }

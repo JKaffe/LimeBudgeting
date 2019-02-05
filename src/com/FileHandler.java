@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 
 public class FileHandler {
 
-    // Paths.get() can throw InvalidPathException
+    // Paths.getPointer() can throw InvalidPathException
     // Files.readAllLines() can throw IOException
 
     final static boolean NO_COMMENT_LINES = true;
